@@ -1,0 +1,28 @@
+How to Run?
+
+- Use python simulator.py 1 to play against Manual player.
+- Use python simulator.py 2 to play against Random Player (who throws random moves).
+- Use python simulator.py 3 to switch to the manual mode entirely for two players.
+
+Description:
+
+- Implemented in Python language.
+- Used Alpha-Beta pruning and depth limited search (depth=3) along with a heuristic function for better performance.
+- Heuristic function is used to evaluate a board and assign it a value so that the state(board) can be compared with others.
+
+My Heuristic Function:
+
+- Board means the larger 16*16 matrix and Blocks mean smaller 4*4 matrices.
+- Suppose you are player X and the opponent is O
+- Now We need to look at the block in X perspective which contains the probability of X in that position.
+- We put a 1 if we have X ,0 if we have O and 0.5 if we have  - (nothing) in that position.
+- We now transformed our matrix to another one containing 0/1/0.5 in each position.
+- We have total 10 patterns for winning (4 rows+ 4 columns + 2 diagonals).Probability for a pattern is product of all values in that pattern.
+  Example : 1) X--X means value we get = 1*0.5*0.5*1 = 0.25
+	    2) X--O means value we get = 1*0.5*0.5*0 = 0
+- Now the entire block needs to be assigned a value which will be average of values for patterns (total 10 values).
+- There is an exception over here.If atleast one of those 10 values is 1 then the Block is assigned 1 .
+- Repeat this entire process for O perspective in a block.
+- Now our 16*16 matrix has to be converted into 2 matrices one having value associated with each block considering X perspective and other having value associated with each block considering O perspective.
+- Finally we get those probabilities multiplied for each pattern and then do an average just like above. Also if atleast one of the value is 1 we assign entire board as 1.Let the value be v_x .Repeat this for other matrix ( one with O perspective entirely) and let that value be v_o.
+- Heuristic value associated with board is difference between v_x and v_o.It is v_x - v_o if we are X player.Otherwise it is v_o - v_x.
